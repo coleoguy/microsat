@@ -73,7 +73,7 @@ for(i in 1:100){
 }
 
 #write a csv with the brownieREML data
-write.csv(results, file = "../../results/cent.vs.rate.csv")
+write.csv(results, file = "../../results/cent.vs.rate.csv", row.names = F)
 
 
 
