@@ -14,12 +14,10 @@ dat.microsat <- read.csv("../results/ssr.inference/micRocounter_results_TII.csv"
 pruned.tree <- drop.tip(phy=tree, tip=c("B.terrestris",
                                         "Plutella_xylostella"))
 
-
-
+#make the heatmap with phylogeny
 phylo.heatmap(tree = pruned.tree, 
               fsize = c(.0001, .0001, .31), standardize=T,
-              X = log(dat.microsat[,4:9]*1000), 
+              X = log(dat.microsat[,11:16]*1000), 
               labels = F, pts = F,
               colors = hcl.colors(n = 500, palette = "viridis"))
-exp(-3.38)
-              
+#export as pdf 7" x 7"              
