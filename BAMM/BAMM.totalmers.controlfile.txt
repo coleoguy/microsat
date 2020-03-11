@@ -16,10 +16,10 @@
 modeltype = trait        
 # Specify "speciationextinction" or "trait" analysis
                                   
-treefile = tree.BAMM
+treefile = tree(1).new
 # File name of the phylogenetic tree to be analyzed
 
-traitfile = micRocounter_results_BAMM.csv
+traitfile = micRocounter_results_BAMM.txt
 # File name of the phenotypic traits file
 
 runInfoFilename = totalmers.microsat.run_info.txt
@@ -64,9 +64,9 @@ overwrite = 0
 
 expectedNumberOfShifts = 1.0
 
-betaInitPrior = 1.37373106055893e-06
+betaInitPrior = 3.66067928114758e-12
 
-betaShiftPrior = 0.00301034619167923
+betaShiftPrior = 0.00303638852479455
 
 useObservedMinMaxAsTraitPriors = 1
 
