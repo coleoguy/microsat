@@ -9,7 +9,7 @@ library(evobiR)
 trees <- read.nexus("../data/trees/post.nex")
 
 # select a tree at random for making a continuous trait map
-tree.BAMM1 <- trees[[1]]
+tree.BAMM1 <- trees[[3]]
 
 # read in  microsatellite data 
 dat.microsat <- read.csv("../results/ssr.inference/micRocounter_results_TII.csv",
