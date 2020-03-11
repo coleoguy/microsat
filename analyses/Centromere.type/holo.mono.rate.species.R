@@ -27,6 +27,17 @@ for(i in 1:100){
 }
 rm(trees, i)
 
+# remove "Timema_cristinae" this species is not place
+# in the tree correctly
+
+foo <- list()
+for(i in 1:100){
+  foo[[i]] <- drop.tip(trees.pruned[[i]], tip="Timema_cristinae")
+}
+trees.pruned <- foo
+rm(foo)
+# also remove this data from the data
+cent.type <- cent.type[names(cent.type)!="Timema_cristinae"]
 #make a vector to store the simmaps
 histories <- list()
 
