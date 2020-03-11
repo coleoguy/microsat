@@ -1,6 +1,6 @@
 library(beeswarm)
 #name
-mydata <-read.csv("../data/vert.data.csv", check.names = F)
+mydata <-read.csv("../data/verts/vert.csv", check.names = F)
 dat <- mydata[,c(1:2,4:6,12:23)]
 datcomp <- dat[complete.cases(dat),]
 result <- c()
