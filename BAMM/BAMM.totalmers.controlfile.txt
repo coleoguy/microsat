@@ -16,7 +16,7 @@
 modeltype = trait        
 # Specify "speciationextinction" or "trait" analysis
                                   
-treefile = tree(1).new
+treefile = tree(2).new
 # File name of the phylogenetic tree to be analyzed
 
 traitfile = micRocounter_results_BAMM.txt
