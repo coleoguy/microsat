@@ -1,3 +1,4 @@
+library(geiger)
 
 # read in microsatellite and centromere data
 microsat.cent <- read.csv("../results/ssr.inference/micRocounter_results_TII_typecentromere.csv", 
@@ -30,6 +31,8 @@ stripchart(log(microsat.cent$all) ~ microsat.cent$holo.or.mono,
 
 # export pdf at 4.3" x 4.3"
 
+holo.or.mono <- microsat.cent$holo.or.mono
+names(holo.or.mono) <- row.names(microsat.cent)
 
 #make named vector for 2mer content
 bp.2 <- microsat.cent$twomers
