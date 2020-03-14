@@ -1,0 +1,55 @@
+library(phytools)
+library(geiger)
+library(phylolm)
+
+#read in csv with rates of evolution
+rates <- read.csv("../analyses/tip.rates/tip.rates.csv",
+                  row.names = 1)
+
+#store the average rate in a named vector by species name
+rates.species <- rates$Average
+names(rates.species) <- row.names(rates)
+
+#load in chromosomes number data
+dat.intersect <- read.csv("../figures/dat.intersect.csv",
+                          as.is = T, 
+                          row.names = 1)
+
+
+dat.rates.chrom <- cbind(dat.intersect, rates.evol = "")
+#loop that finds species diploid chromosome number from our data frame
+for(i in 1:nrow(dat.rates.chrom)){
+  # if species in microcounter matches one in chromosome data 
+  if(row.names(dat.rates.chrom)[i] %in% rates.species){
+    #store the name in vector hit
+    hit <- which(rates.species == dat.rates.chrom$species[i])[1]
+    #fill in rates for those species that have a match in the 
+    #chromosome data
+    dat.rates.chrom$rates.evol[i] <- rates.species[hit]
+  }
+}
+
+#read in trees
+trees <- read.nexus("../data/trees/post.nex")
+
+#make a vector to store p-values 
+pvals.rates <- c()
+
+#loops through the 100 posterior distribution trees and determines the data
+#necessary for the p-value
+for(i in 1:100){
+  #stores tree number
+  tree.test <- trees[[i]]
+  #matches species within the dataset and the tree
+  foo <- treedata(phy = tree.test, data=dat.intersect)
+  #stores current trees data
+  tree.cur <- foo[[1]]
+  #creates data frame of the data for each tree
+  dat <- as.data.frame(foo[[2]])
+  #stores p-value on phylolm analysis
+  pvals.chrom[i] <- summary(phylolm(all ~ diploid.num, 
+                                    data = dat.intersect, 
+                                    phy = tree.cur, 
+                                    model = "BM", 
+                                    boot = 100))$coefficients[2,6]
+}
