@@ -15,19 +15,22 @@ dat.intersect <- read.csv("../figures/dat.intersect.csv",
                           as.is = T, 
                           row.names = 1)
 
-
-dat.rates.chrom <- cbind(dat.intersect, rates.evol = "")
+#make an empty column in the data frame with diploid chromosome number
+dat.rates.chrom <- cbind(dat.intersect, rates.evol = "", stringsAsFactors = F)
 #loop that finds species diploid chromosome number from our data frame
 for(i in 1:nrow(dat.rates.chrom)){
   # if species in microcounter matches one in chromosome data 
-  if(row.names(dat.rates.chrom)[i] %in% rates.species){
+  if(row.names(dat.rates.chrom)[i] %in% names(rates.species)){
     #store the name in vector hit
-    hit <- which(rates.species == dat.rates.chrom$species[i])[1]
+    hit <- which(names(rates.species) == row.names(dat.rates.chrom)[i])
     #fill in rates for those species that have a match in the 
     #chromosome data
-    dat.rates.chrom$rates.evol[i] <- rates.species[hit]
+    dat.rates.chrom$rates.evol[[i]] <- rates.species[[hit]]
   }
 }
+
+#clean environment
+rm(list = c("dat.intersect", "rates", "i", "rates.species", "hit"))
 
 #read in trees
 trees <- read.nexus("../data/trees/post.nex")
