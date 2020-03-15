@@ -44,15 +44,31 @@ for(i in 1:100){
   #stores tree number
   tree.test <- trees[[i]]
   #matches species within the dataset and the tree
-  foo <- treedata(phy = tree.test, data=dat.intersect)
+  foo <- treedata(phy = tree.test, data=dat.rates.chrom)
   #stores current trees data
   tree.cur <- foo[[1]]
   #creates data frame of the data for each tree
   dat <- as.data.frame(foo[[2]])
   #stores p-value on phylolm analysis
-  pvals.chrom[i] <- summary(phylolm(all ~ diploid.num, 
-                                    data = dat.intersect, 
+  pvals.rates[i] <- summary(phylolm(as.numeric(rates.evol) ~ diploid.num, 
+                                    data = dat.rates.chrom, 
                                     phy = tree.cur, 
                                     model = "BM", 
                                     boot = 100))$coefficients[2,6]
 }
+
+#makes a histogram containing the p-values from the loop
+hist(pvals.rates,
+     main = "Chromosome Number and Rate P-Values",
+     xlab = "P-Values",
+     ylab = "Frequency of P-Values")
+
+#plot the microsatellite content in bp/Mbp and the diploid chromosome number
+plot(dat.rates.chrom$rates.evol~dat.rates.chrom$diploid.num,
+     xlab = "Diploid Chromosome Number",
+     ylab = "Microsatellite Evolution Rates",
+     pch = 16, 
+     col = rgb(250, 159, 181, 100,
+               maxColorValue = 255))
+
+# export pdf at 4.3" x 4.3"

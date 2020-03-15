@@ -57,7 +57,7 @@ for(i in 1:100){
   #creates data frame of the data for each tree
   dat <- as.data.frame(foo[[2]])
   #stores p-value on phylolm analysis
-  pvals.chrom[i] <- summary(phylolm(all ~ diploid.num, 
+  pvals.chrom[i] <- summary(phylolm((all/gsz) ~ diploid.num, 
                                    data = dat.intersect, 
                                    phy = tree.cur, 
                                    model = "BM", 
@@ -66,7 +66,7 @@ for(i in 1:100){
 
 #makes a histogram containing the p-values from the loop
 hist(pvals.chrom,
-     main = "Chromosome Number P-Values",
+     main = "Chromosome Number and Microsatellites P-Values",
      xlab = "P-Values",
      ylab = "Frequency of P-Values")
 
