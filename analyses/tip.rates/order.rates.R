@@ -1,5 +1,5 @@
 #load in necessary packages
-library(phytools)
+library(geiger)
 
 
 #read in insect phylogeny
@@ -10,19 +10,11 @@ dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 #subset order data
-blattodea <- dat.mic[which(dat.mic$order == "Blattodea"),]
 coleoptera <- dat.mic[which(dat.mic$order == "Coleoptera"),]
 diptera <- dat.mic[which(dat.mic$order == "Diptera"),]
-hemiptera <- dat.mic[which(dat.mic$order == "Hemiptera"),]
+hemiptera <- dat.mic[which(dat.mic$order %in% c("Homoptera","Hemiptera")),]
 hymenoptera <- dat.mic[which(dat.mic$order == "Hymenoptera"),]
 lepidoptera <- dat.mic[which(dat.mic$order == "Lepidoptera"),]
-odonata <- dat.mic[which(dat.mic$order == "Odonata"),]
-
-#loop through to create blattodea trees with matching data and tips
-trees.blattodea <- c()
-for(i in 1:100){
-  trees.blattodea[[i]] <- treedata(phy = trees[[i]], data=blattodea)[[1]]
-}
 
 #loop through to create coleoptera trees with matching data and tips
 trees.coleoptera <- c()
@@ -54,22 +46,9 @@ for(i in 1:100){
   trees.lepidoptera[[i]] <- treedata(phy = trees[[i]], data=lepidoptera)[[1]]
 }
 
-#loop through to create odonata trees with matching data and tips
-trees.odonata <- c()
-for(i in 1:100){
-  trees.odonata[[i]] <- treedata(phy = trees[[i]], data=odonata)[[1]]
-}
 
-#ancestral character estimations for blattodea
-for(i in 1:100){
-  print(i)
-  # estimate ancestral states
-  ace.blattodea <- ace(x=blattodea$bp.Mbp, 
-                       phy=trees.blattodea[[i]],
-                       type = "continuous",
-                       model="BM",
-                       method="REML")
-}
+ace.diptera <- ace.coleoptera <- ace.hemiptera <- 
+  ace.hymenoptera <- ace.lepidoptera <- list()
 
 #ancestral character estimations for coleoptera
 for(i in 1:100){
@@ -83,15 +62,18 @@ for(i in 1:100){
 }
 
 #ancestral character estimations for diptera
+mics <- diptera$bp.Mbp
+names(mics) <- row.names(diptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.diptera <- ace(x=diptera$bp.Mbp, 
-                     phy=trees.diptera[[i]], 
-                     type="continuous",
-                     model="BM",
-                     method="REML")
+  ace.diptera[[i]] <- fitContinuous(phy=trees.diptera[[i]], dat=mics/1000, ncores=10)
 }
+dip.rates <-c()
+for(i in 1:100){
+  dip.rates[i] <- ace.diptera[[1]]$opt$sigsq
+}
+
 
 #ancestral character estimations for hemiptera
 for(i in 1:100){
@@ -126,15 +108,5 @@ for(i in 1:100){
                          method="REML")
 }
 
-#ancestral character estimations for odonata
-summary(for (i in 1:100) {
-  print(i)
-  # estimate ancestral states
-  ace.odonata <- ace(
-    x = odonata$bp.Mbp,
-    phy = trees.odonata[[i]],
-    type = "continuous",
-    model = "BM",
-    method = "REML"
-  )
-})
+
+
