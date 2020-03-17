@@ -30,7 +30,7 @@ for(i in 1:nrow(dat.rates.chrom)){
 }
 
 #clean environment
-rm(list = c("dat.intersect", "rates", "i", "rates.species", "hit"))
+rm(list = c("dat.intersect", "rates", "i", "rates.species"))
 
 #read in trees
 trees <- read.nexus("../data/trees/post.nex")
@@ -61,7 +61,11 @@ for(i in 1:100){
 hist(pvals.rates,
      main = "Chromosome Number and Rate P-Values",
      xlab = "P-Values",
-     ylab = "Frequency of P-Values")
+     ylab = "Frequency of P-Values",
+     col = rgb(250, 159, 181, 100,
+               maxColorValue = 255))
+
+#export pdf as 6" x 6"
 
 #plot the microsatellite content in bp/Mbp and the diploid chromosome number
 plot(dat.rates.chrom$rates.evol~dat.rates.chrom$diploid.num,

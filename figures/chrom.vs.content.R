@@ -68,7 +68,11 @@ for(i in 1:100){
 hist(pvals.chrom,
      main = "Chromosome Number and Microsatellites P-Values",
      xlab = "P-Values",
-     ylab = "Frequency of P-Values")
+     ylab = "Frequency of P-Values",
+     col=rgb(250, 159, 181, 100,
+             maxColorValue = 255))
+
+#export pdf 6" x 6"
 
 #store the bp/Mbp microsatellite content
 bpMbp <- dat.intersect$all/(dat.intersect$gsz/1000000)
@@ -81,4 +85,4 @@ plot(bpMbp~dat.intersect$diploid.num,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
 
-# export pdf at 4.3" x 4.3"
+#export pdf at 4.3" x 4.3"
