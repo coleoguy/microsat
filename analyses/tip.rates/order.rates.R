@@ -1,6 +1,7 @@
 #load in necessary packages
 library(phytools)
 
+
 #read in insect phylogeny
 trees <- read.nexus("../../data/trees/post.nex")
 
@@ -63,47 +64,77 @@ for(i in 1:100){
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.blattodea <- ace(x=blattodea$bp.Mbp, phy=trees.blattodea[[i]], model="BM")
+  ace.blattodea <- ace(x=blattodea$bp.Mbp, 
+                       phy=trees.blattodea[[i]],
+                       type = "continuous",
+                       model="BM",
+                       method="REML")
 }
 
 #ancestral character estimations for coleoptera
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.coleoptera <- ace(x=coleoptera$bp.Mbp, phy=trees.coleoptera[[i]], model="BM")
+  ace.coleoptera <- ace(x=coleoptera$bp.Mbp, 
+                        phy=trees.coleoptera[[i]], 
+                        type = "continuous",
+                        model="BM",
+                        method="REML")
 }
 
 #ancestral character estimations for diptera
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.diptera <- ace(x=diptera$bp.Mbp, phy=trees.diptera[[i]], model="BM")
+  ace.diptera <- ace(x=diptera$bp.Mbp, 
+                     phy=trees.diptera[[i]], 
+                     type="continuous",
+                     model="BM",
+                     method="REML")
 }
 
 #ancestral character estimations for hemiptera
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hemiptera <- ace(x=hemiptera$bp.Mbp, phy=trees.hemiptera[[i]], model="BM")
+  ace.hemiptera <- ace(x=hemiptera$bp.Mbp, 
+                       phy=trees.hemiptera[[i]],
+                       type = "continuous",
+                       model="BM",
+                       method= "REML")
 }
 
 #ancestral character estimations for hymenoptera
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hymenoptera <- ace(x=hymenoptera$bp.Mbp, phy=trees.hymenoptera[[i]], model="BM")
+  ace.hymenoptera <- ace(x=hymenoptera$bp.Mbp, 
+                         phy=trees.hymenoptera[[i]], 
+                         type="continuous",
+                         model="BM",
+                         method="REML")
 }
 
 #ancestral character estimations for lepidoptera
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.lepidoptera <- ace(x=lepidoptera$bp.Mbp, phy=trees.lepidoptera[[i]], model="BM")
+  ace.lepidoptera <- ace(x=lepidoptera$bp.Mbp, 
+                         phy=trees.lepidoptera[[i]],
+                         type="continuous",
+                         model="BM",
+                         method="REML")
 }
 
 #ancestral character estimations for odonata
-for(i in 1:100){
+summary(for (i in 1:100) {
   print(i)
   # estimate ancestral states
-  ace.odonata <- ace(x=odonata$bp.Mbp, phy=trees.odonata[[i]], model="BM")
-}
+  ace.odonata <- ace(
+    x = odonata$bp.Mbp,
+    phy = trees.odonata[[i]],
+    type = "continuous",
+    model = "BM",
+    method = "REML"
+  )
+})
