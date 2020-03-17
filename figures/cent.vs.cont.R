@@ -4,14 +4,34 @@ library(geiger)
 microsat.cent <- read.csv("../results/ssr.inference/micRocounter_results_TII_typecentromere.csv", 
                           row.names = 4)
 
-# run aovphylo with phylogenetic correction
+#read in centromere type data
+holo.or.mono <- microsat.cent$holo.or.mono
+names(holo.or.mono) <- row.names(microsat.cent)
+
+#import trees
+trees <- read.nexus("../data/trees/post.nex")
+tree <- trees[[sample(1:100, 1)]]
+rm(trees)
+
+# drops the tip 
+pruned.tree <- drop.tip(phy=tree, tip=c("B.terrestris",
+                                        "Plutella_xylostella",
+                                        "Timema_cristinae"))
 # make named vector for bpMbp coontent
 bp.Mbp <- microsat.cent$bp.Mbp
 names(bp.Mbp) <- row.names(microsat.cent)
+# run aovphylo with phylogenetic correction
+aovphylo.bpMbp <- aov.phylo(bp.Mbp ~ holo.or.mono,
+                          phy = tree,
+                          nsim = 100)
 
 # make named vector for all microsat content
 bp.all <- microsat.cent$all
 names(bp.all) <- row.names(microsat.cent)
+# run aovphylo with phylogenetic correction
+aovphylo.bpall <- aov.phylo(bp.all ~ holo.or.mono,
+                          phy = tree,
+                          nsim = 100)
 
 # plot for presentation
 boxplot(log(bp.all) ~ holo.or.mono,
@@ -30,9 +50,6 @@ stripchart(log(microsat.cent$all) ~ microsat.cent$holo.or.mono,
 
 
 # export pdf at 4.3" x 4.3"
-
-holo.or.mono <- microsat.cent$holo.or.mono
-names(holo.or.mono) <- row.names(microsat.cent)
 
 #make named vector for 2mer content
 bp.2 <- microsat.cent$twomers
