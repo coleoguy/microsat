@@ -51,62 +51,69 @@ ace.diptera <- ace.coleoptera <- ace.hemiptera <-
   ace.hymenoptera <- ace.lepidoptera <- list()
 
 #ancestral character estimations for coleoptera
+mics.coleoptera <- coleoptera$bp.Mbp
+names(mics.coleoptera) <- row.names(coleoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.coleoptera <- ace(x=coleoptera$bp.Mbp, 
-                        phy=trees.coleoptera[[i]], 
-                        type = "continuous",
-                        model="BM",
-                        method="REML")
+  ace.coleoptera[[i]] <- fitContinuous(phy=trees.coleoptera[[i]], dat=mics.coleoptera/1000, ncores=2)
+}
+coleoptera.rates <-c()
+for(i in 1:100){
+  coleoptera.rates[i] <- ace.coleoptera[[1]]$opt$sigsq
 }
 
 #ancestral character estimations for diptera
-mics <- diptera$bp.Mbp
-names(mics) <- row.names(diptera)
+mics.diptera <- diptera$bp.Mbp
+names(mics.diptera) <- row.names(diptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.diptera[[i]] <- fitContinuous(phy=trees.diptera[[i]], dat=mics/1000, ncores=10)
+  ace.diptera[[i]] <- fitContinuous(phy=trees.diptera[[i]], dat=mics.diptera/1000, ncores=2)
 }
-dip.rates <-c()
+diptera.rates <-c()
 for(i in 1:100){
-  dip.rates[i] <- ace.diptera[[1]]$opt$sigsq
+  diptera.rates[i] <- ace.diptera[[1]]$opt$sigsq
 }
 
 
 #ancestral character estimations for hemiptera
+mics.hemiptera <- hemiptera$bp.Mbp
+names(mics.hemiptera) <- row.names(hemiptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hemiptera <- ace(x=hemiptera$bp.Mbp, 
-                       phy=trees.hemiptera[[i]],
-                       type = "continuous",
-                       model="BM",
-                       method= "REML")
+  ace.hemiptera[[i]] <- fitContinuous(phy=trees.hemiptera[[i]], dat=mics.hemiptera/1000, ncores=2)
+}
+hemiptera.rates <-c()
+for(i in 1:100){
+  hemiptera.rates[i] <- ace.hemiptera[[1]]$opt$sigsq
 }
 
 #ancestral character estimations for hymenoptera
+mics.hymenoptera <- hymenoptera$bp.Mbp
+names(mics.hymenoptera) <- row.names(hymenoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hymenoptera <- ace(x=hymenoptera$bp.Mbp, 
-                         phy=trees.hymenoptera[[i]], 
-                         type="continuous",
-                         model="BM",
-                         method="REML")
+  ace.hymenoptera[[i]] <- fitContinuous(phy=trees.hymenoptera[[i]], dat=mics.hymenoptera/1000, ncores=2)
+}
+hymenoptera.rates <-c()
+for(i in 1:100){
+  hymenoptera.rates[i] <- ace.hymenoptera[[1]]$opt$sigsq
 }
 
 #ancestral character estimations for lepidoptera
+mics.lepidoptera <- lepidoptera$bp.Mbp
+names(mics.lepidoptera) <- row.names(lepidoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.lepidoptera <- ace(x=lepidoptera$bp.Mbp, 
-                         phy=trees.lepidoptera[[i]],
-                         type="continuous",
-                         model="BM",
-                         method="REML")
+  ace.lepidoptera[[i]] <- fitContinuous(phy=trees.lepidoptera[[i]], dat=mics.lepidoptera/1000, ncores=2)
 }
-
+lepidoptera.rates <-c()
+for(i in 1:100){
+  lepidoptera.rates[i] <- ace.lepidoptera[[1]]$opt$sigsq
+}
 
 
