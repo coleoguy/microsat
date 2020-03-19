@@ -7,7 +7,9 @@ plot(sort(TII[,2]),
      pch=16, 
      cex=.5,
      xlab = "Taxa",
-     ylab = "Taxanomic Instability Index")
+     ylab = "Taxanomic Instability Index",
+     col = rgb(250, 159, 181, 100,
+               maxColorValue = 255))
 abline(h = 5000, lty = 3)
 
 #export plot at 8" x 6"
