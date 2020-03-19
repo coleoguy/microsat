@@ -46,6 +46,7 @@ trees <- read.nexus("../data/trees/post.nex")
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
+pvals.rates <- c()
 for(i in 1:100){
   #stores tree number
   tree.test <- trees[[i]]
@@ -54,25 +55,22 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  pvals.rates[i] <- summary(phylolm(gsz ~ all, 
+  pvals.rates[i] <- summary(phylolm(gsz ~ rates, 
                                     data = str, 
                                     phy = tree.cur, 
                                     model = "BM",
                                     boot = 100))$coefficients[2,6]
 }
 
+#write the results into a file
+write.csv(pvals.rates, "gsz.rate.pvals.csv")
+
 #plot the microsatellite evolution rates and genome size
-plot(str$rates~str$gsz,
-     xlab = "Genome Size",
-     ylab = "Microsatellite Evolution Rates",
+plot(str$gsz~str$rates,
+     xlab = "Microsatellite Evolution Rates",
+     ylab = "Genome Size",
      pch = 16, 
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
 
-#plot the microsatellite content and genome size
-plot(str$gsz~str$all,
-     xlab = "Microsatellite Evolution Rates",
-     ylab = "Microsatellite Content (bp)",
-     pch = 16, 
-     col = rgb(250, 159, 181, 100,
-               maxColorValue = 255))
+#export as pdf 4.3" x 4.3"
