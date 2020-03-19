@@ -120,21 +120,3 @@ for(i in 1:100){
 order.rates <- data.frame(coleoptera.rates,diptera.rates, hemiptera.rates, hymenoptera.rates, lepidoptera.rates)
 #store in a file
 write.csv(order.rates, file = "order.rates")
-
-#plot the order data
-boxplot(order.rates$coleoptera.rates, order.rates$diptera.rates, order.rates$hemiptera.rates, order.rates$hymenoptera.rates, order.rates$lepidoptera.rates, 
-        outpch = NA,
-        ylim = c(0,0.42),
-        xlab = "Order",
-        ylab = "Rate Estimates",
-        names = c("Coleoptera", "Diptera", "Hemiptera", "Hymneoptera", "Lepidoptera")
-        )
-stripchart(order.rates[,1:5], 
-           data = order.rates,
-           vertical = TRUE, 
-           method = "jitter", 
-           add = TRUE, 
-           pch = 20, 
-           col = rgb(250, 159, 181, 100,
-                     maxColorValue = 255))
-}
