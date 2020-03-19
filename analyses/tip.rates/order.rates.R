@@ -60,7 +60,7 @@ for(i in 1:100){
 }
 coleoptera.rates <-c()
 for(i in 1:100){
-  coleoptera.rates[i] <- ace.coleoptera[[1]]$opt$sigsq
+  coleoptera.rates[i] <- ace.coleoptera[[i]]$opt$sigsq
 }
 
 #ancestral character estimations for diptera
@@ -73,7 +73,7 @@ for(i in 1:100){
 }
 diptera.rates <-c()
 for(i in 1:100){
-  diptera.rates[i] <- ace.diptera[[1]]$opt$sigsq
+  diptera.rates[i] <- ace.diptera[[i]]$opt$sigsq
 }
 
 
@@ -87,7 +87,7 @@ for(i in 1:100){
 }
 hemiptera.rates <-c()
 for(i in 1:100){
-  hemiptera.rates[i] <- ace.hemiptera[[1]]$opt$sigsq
+  hemiptera.rates[i] <- ace.hemiptera[[i]]$opt$sigsq
 }
 
 #ancestral character estimations for hymenoptera
@@ -100,7 +100,7 @@ for(i in 1:100){
 }
 hymenoptera.rates <-c()
 for(i in 1:100){
-  hymenoptera.rates[i] <- ace.hymenoptera[[1]]$opt$sigsq
+  hymenoptera.rates[i] <- ace.hymenoptera[[i]]$opt$sigsq
 }
 
 #ancestral character estimations for lepidoptera
@@ -113,7 +113,28 @@ for(i in 1:100){
 }
 lepidoptera.rates <-c()
 for(i in 1:100){
-  lepidoptera.rates[i] <- ace.lepidoptera[[1]]$opt$sigsq
+  lepidoptera.rates[i] <- ace.lepidoptera[[i]]$opt$sigsq
 }
 
+#make a data frame with all the order data
+order.rates <- data.frame(coleoptera.rates,diptera.rates, hemiptera.rates, hymenoptera.rates, lepidoptera.rates)
+#store in a file
+write.csv(order.rates, file = "order.rates")
 
+#plot the order data
+boxplot(order.rates$coleoptera.rates, order.rates$diptera.rates, order.rates$hemiptera.rates, order.rates$hymenoptera.rates, order.rates$lepidoptera.rates, 
+        outpch = NA,
+        ylim = c(0,0.42),
+        xlab = "Order",
+        ylab = "Rate Estimates",
+        names = c("Coleoptera", "Diptera", "Hemiptera", "Hymneoptera", "Lepidoptera")
+        )
+stripchart(order.rates[,1:5], 
+           data = order.rates,
+           vertical = TRUE, 
+           method = "jitter", 
+           add = TRUE, 
+           pch = 20, 
+           col = rgb(250, 159, 181, 100,
+                     maxColorValue = 255))
+}
