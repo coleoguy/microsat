@@ -49,13 +49,12 @@ for(i in 1:100){
 #make the results into a data frame
 results <- data.frame(pvals.content,beta.content)
 #write the results to a csv
-write.csv(pvals.content, "../results/genome.size/gsz.content.results.csv")
+write.csv(pvals.content, "../results/genome.size/gsz.content.csv")
 
 #put gsz and microsatellite data into different units
-str$gsz/1000000 ->gsz
 str$all/1000000 ->msat
 #plot the microsatellite content and genome size
-plot(msat~gsz,
+plot(msat~str$gsz,
      ylab = "Microsatellite Content (Mbp)",
      xlab = "Genome Size (Mbp)",
      pch = 16, 

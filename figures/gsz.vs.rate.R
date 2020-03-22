@@ -60,7 +60,7 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  cur.results <- summary(phylolm(gsz ~ rates, 
+  cur.results <- summary(phylolm(rates ~ gsz, 
                                     data = str, 
                                     phy = tree.cur, 
                                     model = "BM",
@@ -69,14 +69,16 @@ for(i in 1:100){
   beta.rates[i] <- cur.results$coefficients[2,1]
 }
 #make the results into a data frame
-results <- data.frame(pvals.content,beta.content)
+results <- data.frame(pvals.rates,beta.rates)
 #write the results to a csv
-write.csv(pvals.content, "../results/genome.size/gsz.content.results.csv")
+write.csv(pvals.rates, "../results/genome.size/gsz.rates.csv")
 
+#put gsz and rates into different units
+rates <- abs(str$rates)
 #plot the microsatellite evolution rates and genome size
-plot(str$gsz~str$rates,
-     xlab = "Microsatellite Evolution Rates",
-     ylab = "Genome Size",
+plot(rates~str$gsz,
+     xlab = "Genome Size (Mbp)",
+     ylab = "Microsatellite Evolution Rates",
      pch = 16, 
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
