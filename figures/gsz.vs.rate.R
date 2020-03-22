@@ -1,3 +1,5 @@
+#set figrues as working directory
+#load in libraries
 library(geiger)
 library(phylolm)
 
@@ -29,8 +31,9 @@ str$species <- gsub(pattern = "Scaptodrosophila_lebanonesis",
                     replacement = "Scaptodrosophila_lebanonensis", str$species)
 
 
-
+#assign rownames
 row.names(str) <- str$species
+#fill in the rates into the other data frame
 for(i in 1:nrow(str)){
     hit <- which(names(rates.species) == str$species[i])[1]
     #fill in rates for those species that have a match in species column 
@@ -46,8 +49,10 @@ trees <- read.nexus("../data/trees/post.nex")
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
-pvals.rates <- c()
+pvals.rates <- beta.rates <- c()
+str$gsz <- str$gsz/1000000
 for(i in 1:100){
+  print(i)
   #stores tree number
   tree.test <- trees[[i]]
   #matches species within the dataset and the tree
@@ -55,15 +60,18 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  pvals.rates[i] <- summary(phylolm(gsz ~ rates, 
+  cur.results <- summary(phylolm(gsz ~ rates, 
                                     data = str, 
                                     phy = tree.cur, 
                                     model = "BM",
-                                    boot = 100))$coefficients[2,6]
+                                    boot = 100))
+  pvals.rates[i] <- cur.results$coefficients[2,6]
+  beta.rates[i] <- cur.results$coefficients[2,1]
 }
-
-#write the results into a file
-write.csv(pvals.rates, "gsz.rate.pvals.csv")
+#make the results into a data frame
+results <- data.frame(pvals.content,beta.content)
+#write the results to a csv
+write.csv(pvals.content, "../results/genome.size/gsz.content.results.csv")
 
 #plot the microsatellite evolution rates and genome size
 plot(str$gsz~str$rates,

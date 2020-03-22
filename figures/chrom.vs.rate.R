@@ -13,7 +13,7 @@ rates.species <- rates$Average
 names(rates.species) <- row.names(rates)
 
 #load in chromosomes number data
-dat.intersect <- read.csv("../figures/dat.intersect.csv",
+dat.intersect <- read.csv("../data/traits/dat.intersect.csv",
                           as.is = T, 
                           row.names = 1)
 

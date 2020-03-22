@@ -1,3 +1,4 @@
+#set figures as working directory
 #load in packages needed
 library(phytools)
 library(geiger)
@@ -35,7 +36,7 @@ write.csv(dat.intersect, "dat.intersect.csv")
 #for following code to work
 
 #then reread in the data
-dat.intersect <- read.csv("../figures/dat.intersect.csv", 
+dat.intersect <- read.csv("../data/traits/dat.intersect.csv", 
                           as.is = T,
                           row.names = 1)
 

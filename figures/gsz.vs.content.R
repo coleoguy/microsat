@@ -1,3 +1,5 @@
+#set figures as working directory
+#load in libraries
 library(geiger)
 library(phylolm)
 
@@ -17,13 +19,11 @@ str$species <- gsub(pattern = "Pogomyrmex_barbatus",
 str$species <- gsub(pattern = "Scaptodrosophila_lebanonesis", 
                     replacement = "Scaptodrosophila_lebanonensis", str$species)
 
-
-
+#assign rownames
 row.names(str) <- str$species
 
 #read in trees
 trees <- read.nexus("../data/trees/post.nex")
-
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
@@ -38,7 +38,6 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  
   cur.results <- summary(phylolm(all ~ gsz, 
                                     data = str, 
                                     phy = tree.cur, 
@@ -47,15 +46,20 @@ for(i in 1:100){
   pvals.content[i] <- cur.results$coefficients[2,6]
   beta.content[i] <- cur.results$coefficients[2,1]
 }
+#make the results into a data frame
 results <- data.frame(pvals.content,beta.content)
-write.csv(pvals.content, "gsz.content.results.csv")
+#write the results to a csv
+write.csv(pvals.content, "../results/genome.size/gsz.content.results.csv")
 
-#plot the microsatellite content and genome size
+#put gsz and microsatellite data into different units
 str$gsz/1000000 ->gsz
 str$all/1000000 ->msat
+#plot the microsatellite content and genome size
 plot(msat~gsz,
      ylab = "Microsatellite Content (Mbp)",
      xlab = "Genome Size (Mbp)",
      pch = 16, 
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
+
+#save as pdf 4.3" x 4.3"
