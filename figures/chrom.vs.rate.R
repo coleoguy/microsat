@@ -1,3 +1,5 @@
+#set figures as working directory
+#load in libraries
 library(phytools)
 library(geiger)
 library(phylolm)

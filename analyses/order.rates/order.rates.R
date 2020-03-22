@@ -1,8 +1,10 @@
-
-order.rates <- read.csv("../results/order.rates.csv")[,-1]
+#set working directory as analyses/order.rates
+#read in order rates data
+order.rates <- read.csv("../../results/order.rates/order.rates.csv")[,-1]
+#adjust column names
 colnames(order.rates) <- c("Lepidoptera", "Hymneoptera", "Diptera", "Coleoptera", "Hemiptera")
 
-#plot the order data
+#plot the order data (boxplot)
 boxplot(order.rates, 
         outpch = NA,
         ylim = c(0,0.42),

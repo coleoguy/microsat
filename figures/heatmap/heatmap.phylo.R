@@ -1,13 +1,14 @@
+#set working directory as figures/heatmap
 #load in packages that are needed
 library(phytools)
 
 #load in the trees
-trees <- read.nexus("../data/trees/post.nex")
+trees <- read.nexus("../../data/trees/post.nex")
 #select a single tree to use
 tree <- trees[[sample(1:100, 1)]]
 rm(trees)
 #load in the data
-dat.microsat <- read.csv("../results/ssr.inference/micRocounter_results_TII.csv",
+dat.microsat <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
                          row.names = 4)
 
 # drops the tip for B.terrestis
@@ -33,16 +34,6 @@ phylo.heatmap(tree = pruned.tree,
               colors = hcl.colors(n = 500, palette = "viridis"))
 #export as pdf 7" x 7"              
 
-#check if the tip labels and the microsat data match
-pruned.tree$tip.label == row.names(dat.microsat)
 
-
-plot(pruned.tree, show.tip.label = F)
-tiplabels(text=foo$order, cex=.2, frame="n",adj=-.1)
-tiplabels(text=1:202, cex=.2, frame="n",adj=-.1)
-pruned.tree$tip.label[176]
-
-"Spodoptera_litura"
-"Timema_cristinae"
 
 
