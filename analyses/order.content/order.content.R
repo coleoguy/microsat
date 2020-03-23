@@ -28,7 +28,6 @@ colnames(results) <- c("wophylo","wphylo")
 
 bp2 <- bp.Mbp
 ord2 <- order
-names(bp2) <- names(ord2) <- names(trees.pruned[[i]]$tip.label)
 for(i in 1:100){
   for(j in 1:length(bp2)){
     hit <- which(names(bp.Mbp) == trees.pruned[[i]]$tip.label[j])
@@ -43,5 +42,27 @@ for(i in 1:100){
   results[i, 1] <- aov.sum$`Pr(>F)`[1]
   results[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
+twomers <- dat.mic$twomers
+names(twomers) <- row.names(dat.mic)
+twomers.2 <- twomers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(twomers.2)){
+    hit <- which(names(twomers) == trees.pruned[[i]]$tip.label[j])
+    twomers.2[j] <- twomers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(bp2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(twomers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+
+
+
 write.csv(results,file="../results/cent.vs.cont.csv",row.names = F)
 
