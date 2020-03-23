@@ -8,6 +8,12 @@ trees <- read.nexus("../../data/trees/post.nex")
 dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
                     as.is = T, row.names = 4)
 
+#loop through to drop any unmatching data or tree tips
+trees.pruned <- c()
+for(i in 1:100){
+  trees.pruned[[i]] <- treedata(phy = trees[[i]], data=dat.mic)[[1]]
+}
+
 # run aovphylo with phylogenetic correction
 # make named vector for bpMbp coontent
 bp.Mbp <- dat.mic$bp.Mbp
@@ -20,7 +26,7 @@ results <- matrix(NA, 100, 2)
 colnames(results) <- c("wophylo","wphylo")
 for(i in 1:100){
   fit <- aov.phylo(bp.Mbp ~ order,
-                   phy = trees[[i]],
+                   phy = trees.pruned[[i]],
                    nsim = 100)
   aov.sum <- attributes(fit)$summary
   results[i, 1] <- aov.sum$`Pr(>F)`[1]
