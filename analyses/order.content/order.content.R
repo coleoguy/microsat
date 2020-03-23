@@ -24,8 +24,19 @@ names(order) <- row.names(dat.mic)
 #run phyloANOVA for bpMbp and centromere type
 results <- matrix(NA, 100, 2)
 colnames(results) <- c("wophylo","wphylo")
+
+
+names(bp2) <- names(ord2) <- names(trees.pruned[[i]]$tip.label)
 for(i in 1:100){
-  fit <- aov.phylo(bp.Mbp ~ order,
+  bp2 <- bp.Mbp
+  ord2 <- order
+  for(j in 1:length(bp2)){
+    hit <- which(names(bp.Mbp) == trees.pruned[[i]]$tip.label[j])
+    bp2[j] <- bp.Mbp[hit]
+    ord2[j] <- order[hit]
+  }
+  names(bp2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(bp2~ord2,
                    phy = trees.pruned[[i]],
                    nsim = 100)
   aov.sum <- attributes(fit)$summary
