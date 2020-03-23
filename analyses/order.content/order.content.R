@@ -26,10 +26,10 @@ results <- matrix(NA, 100, 2)
 colnames(results) <- c("wophylo","wphylo")
 
 
+bp2 <- bp.Mbp
+ord2 <- order
 names(bp2) <- names(ord2) <- names(trees.pruned[[i]]$tip.label)
 for(i in 1:100){
-  bp2 <- bp.Mbp
-  ord2 <- order
   for(j in 1:length(bp2)){
     hit <- which(names(bp.Mbp) == trees.pruned[[i]]$tip.label[j])
     bp2[j] <- bp.Mbp[hit]
