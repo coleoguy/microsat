@@ -19,3 +19,4 @@ stripchart(order.rates,
            col = rgb(250, 159, 181, 100,
                      maxColorValue = 255))
 
+#export as pdf 8" x 6"

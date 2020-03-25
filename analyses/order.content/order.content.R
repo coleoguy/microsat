@@ -18,17 +18,18 @@ for(i in 1:100){
 # make named vector for bpMbp coontent
 bp.Mbp <- dat.mic$bp.Mbp
 names(bp.Mbp) <- row.names(dat.mic)
-# make named vector for type of centromere
+
+# make named vector for orders
 order <- as.factor(dat.mic$order)
 names(order) <- row.names(dat.mic)
-#run phyloANOVA for bpMbp and centromere type
-results <- matrix(NA, 100, 2)
-colnames(results) <- c("wophylo","wphylo")
 
+#create results data frame and indicate proper column names
+results.Mbp <- matrix(NA, 100, 2)
+colnames(results.Mbp) <- c("wophylo","wphylo")
 
+#run phyloANOVA for bpMbp and orders
 bp2 <- bp.Mbp
 ord2 <- order
-names(bp2) <- names(ord2) <- names(trees.pruned[[i]]$tip.label)
 for(i in 1:100){
   for(j in 1:length(bp2)){
     hit <- which(names(bp.Mbp) == trees.pruned[[i]]$tip.label[j])
@@ -40,8 +41,176 @@ for(i in 1:100){
                    phy = trees.pruned[[i]],
                    nsim = 100)
   aov.sum <- attributes(fit)$summary
-  results[i, 1] <- aov.sum$`Pr(>F)`[1]
-  results[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+  results.Mbp[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.Mbp[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
-write.csv(results,file="../results/cent.vs.cont.csv",row.names = F)
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/Mbp")
 
+#make named vector for twomers
+twomers <- dat.mic$twomers
+names(twomers) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.twomers <- matrix(NA, 100, 2)
+colnames(results.twomers) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+twomers.2 <- twomers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(twomers.2)){
+    hit <- which(names(twomers) == trees.pruned[[i]]$tip.label[j])
+    twomers.2[j] <- twomers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(twomers.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(twomers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.twomers[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.twomers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/twomers")
+
+#make named vector for threemers
+threemers <- dat.mic$threemers
+names(threemers) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.threemers <- matrix(NA, 100, 2)
+colnames(results.threemers) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+threemers.2 <- threemers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(threemers.2)){
+    hit <- which(names(threemers) == trees.pruned[[i]]$tip.label[j])
+    threemers.2[j] <- threemers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(threemers.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(threemers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.threemers[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.threemers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/threemers")
+
+#make named vector for threemers
+fourmers <- dat.mic$fourmers
+names(fourmers) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.fourmers <- matrix(NA, 100, 2)
+colnames(results.fourmers) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+fourmers.2 <- fourmers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(fourmers.2)){
+    hit <- which(names(fourmers) == trees.pruned[[i]]$tip.label[j])
+    fourmers.2[j] <- fourmers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(fourmers.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(fourmers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.fourmers[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.fourmers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/fourmers")
+
+#make named vector for threemers
+fivemers <- dat.mic$fivemers
+names(fivemers) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.fivemers <- matrix(NA, 100, 2)
+colnames(results.fivemers) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+fivemers.2 <- fivemers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(fivemers.2)){
+    hit <- which(names(fivemers) == trees.pruned[[i]]$tip.label[j])
+    fivemers.2[j] <- fivemers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(fivemers.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(fivemers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.fivemers[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.fivemers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/fivemers")
+
+#make named vector for threemers
+sixmers <- dat.mic$sixmers
+names(sixmers) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.sixmers <- matrix(NA, 100, 2)
+colnames(results.sixmers) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+sixmers.2 <- sixmers
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(sixmers.2)){
+    hit <- which(names(sixmers) == trees.pruned[[i]]$tip.label[j])
+    sixmers.2[j] <- fourmers[hit]
+    ord2[j] <- order[hit]
+  }
+  names(sixmers.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(sixmers.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.sixmers[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.sixmers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/sixmers")
+
+#make named vector for threemers
+all <- dat.mic$all
+names(all) <- row.names(dat.mic)
+
+#create results data frame and indicate proper column names
+results.all <- matrix(NA, 100, 2)
+colnames(results.all) <- c("wophylo","wphylo")
+
+#run phyloANOVA for twomers and orders
+all.2 <- all
+ord2 <- order
+for(i in 1:100){
+  for(j in 1:length(all.2)){
+    hit <- which(names(all) == trees.pruned[[i]]$tip.label[j])
+    all.2[j] <- all[hit]
+    ord2[j] <- order[hit]
+  }
+  names(all.2) <- names(ord2) <- trees.pruned[[i]]$tip.label
+  fit <- aov.phylo(all.2~ord2,
+                   phy = trees.pruned[[i]],
+                   nsim = 100)
+  aov.sum <- attributes(fit)$summary
+  results.all[i, 1] <- aov.sum$`Pr(>F)`[1]
+  results.all[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
+}
+#save p-value data frame into csv
+write.csv(results.Mbp, "../../results/order.content/all")
