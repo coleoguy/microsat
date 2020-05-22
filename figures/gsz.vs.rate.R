@@ -19,15 +19,15 @@ str$rates <- NA
 str$species <- gsub(pattern = " ", replacement = "_", str$species)
 
 #fix the names in the data that are different from the trees
-str$species <- sub(pattern = "Harpergnathos_saltator", 
+str$species <- sub(pattern = "Harpergnathos_saltator",
                    replacement = "Harpegnathos_saltator", str$species)
-str$species <- gsub(pattern = "helicoverpa_zea", 
+str$species <- gsub(pattern = "helicoverpa_zea",
                     replacement = "Helicoverpa_zea", str$species)
-str$species <- gsub(pattern = "papilio_polytes", 
+str$species <- gsub(pattern = "papilio_polytes",
                     replacement = "Papilio_polytes", str$species)
-str$species <- gsub(pattern = "Pogomyrmex_barbatus", 
+str$species <- gsub(pattern = "Pogomyrmex_barbatus",
                    replacement = "Pogonomyrmex_barbatus", str$species)
-str$species <- gsub(pattern = "Scaptodrosophila_lebanonesis", 
+str$species <- gsub(pattern = "Scaptodrosophila_lebanonesis",
                     replacement = "Scaptodrosophila_lebanonensis", str$species)
 
 
@@ -36,8 +36,8 @@ row.names(str) <- str$species
 #fill in the rates into the other data frame
 for(i in 1:nrow(str)){
     hit <- which(names(rates.species) == str$species[i])[1]
-    #fill in rates for those species that have a match in species column 
-    str$rates[i] <- rates.species[hit]
+    #fill in rates for those species that have a match in species column
+    str[i, 4:104] <- rates[hit, 1:100]
 }
 
 #clean environment
@@ -49,7 +49,7 @@ trees <- read.nexus("../data/trees/post.nex")
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
-pvals.rates <- beta.rates <- c()
+pvals.rates <- beta.rates <- intercept <- c()
 str$gsz <- str$gsz/1000000
 for(i in 1:100){
   print(i)
@@ -60,27 +60,31 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  cur.results <- summary(phylolm(rates ~ gsz, 
-                                    data = str, 
-                                    phy = tree.cur, 
+  cur.results <- summary(phylolm(str[,(i+3)] ~ gsz,
+                                    data = str,
+                                    phy = tree.cur,
                                     model = "BM",
                                     boot = 100))
   pvals.rates[i] <- cur.results$coefficients[2,6]
   beta.rates[i] <- cur.results$coefficients[2,1]
+  intercept[i] <- cur.results$coefficients[1,1]
+
 }
 #make the results into a data frame
-results <- data.frame(pvals.rates,beta.rates)
+results <- data.frame(pvals.rates,beta.rates, intercept)
 #write the results to a csv
 write.csv(pvals.rates, "../results/genome.size/gsz.rates.csv")
 
-#put gsz and rates into different units
-rates <- abs(str$rates)
+# rates <- abs(str$rates)
 #plot the microsatellite evolution rates and genome size
-plot(rates~str$gsz,
+plot(rowSums(str[,4:104]) ~ str$gsz,
      xlab = "Genome Size (Mbp)",
      ylab = "Microsatellite Evolution Rates",
-     pch = 16, 
+     pch = 16,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
+
+lines(x=c(0,2500), y=c(mean(results$intercept),
+                       (mean(results$beta.rates)*2500 + mean(results$intercept))))
 
 #export as pdf 4.3" x 4.3"

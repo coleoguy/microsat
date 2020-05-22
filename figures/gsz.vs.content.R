@@ -47,13 +47,12 @@ for(i in 1:100){
                  boot = 100)
   simp.mod <- lm(str$all ~ str$gsz)
   cur.results <- summary(fit)
-  R2(fit, simp.mod, phy = tree.cur)
-  cur.results[[16]]
+  prop.var.exp[i] <- R2(fit, simp.mod, phy = tree.cur)[3]
   pvals.content[i] <- cur.results$coefficients[2,6]
   beta.content[i] <- cur.results$coefficients[2,1]
 }
 #make the results into a data frame
-results <- data.frame(pvals.content,beta.content)
+results <- data.frame(pvals.content,beta.content, prop.var.exp)
 #write the results to a csv
 write.csv(pvals.content, "../results/genome.size/gsz.content.csv")
 

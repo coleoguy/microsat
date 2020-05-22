@@ -5,7 +5,7 @@ library(phytools)
 trees <- read.nexus("../../data/trees/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
+dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 
@@ -29,7 +29,7 @@ for(k in 1:100){
   print(k)
   # estimate ancestral states
   foo <- ace(x=bpMbp, phy=trees.pruned[[k]], model="BM")
-  
+
   # get tip branches
   tip.branch <- c()
   for(i in 1:nrow(trees.pruned[[k]]$edge)){
@@ -38,7 +38,7 @@ for(k in 1:100){
       tip.branch <- c(tip.branch, i)
     }
   }
-  
+
   anc.state <- c()
   for(j in 1:length(tip.branch)){
     # get node microsatellite estimate
@@ -51,7 +51,8 @@ for(k in 1:100){
     curr.sp <- trees.pruned[[k]]$tip.label[j]
     curr.state <- bpMbp[names(bpMbp) == curr.sp]
   }
-  tip.rates <- (anc.state - curr.state) / 
+  print(anc.state - curr.state)
+  tip.rates <- (anc.state - curr.state) /
     trees.pruned[[k]]$edge.length[tip.branch]
   names(tip.rates) <- trees.pruned[[k]]$tip.label
   if(k == 1){
@@ -61,5 +62,8 @@ for(k in 1:100){
   }
 }
 colnames(tipp.rates) <- paste("tree", 1:100)
+tipp.rates[,] <- abs(tipp.rates)
+Average <- rowSums(tipp.rates)/100
+tipp.rates <- cbind(tipp.rates, Average)
 write.csv(tipp.rates, file="tip.rates.csv")
-foo <- read.csv("tip.rates.csv", row.names = 1)
+

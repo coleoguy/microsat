@@ -14,20 +14,20 @@ names(rates.species) <- row.names(rates)
 
 #load in chromosomes number data
 dat.intersect <- read.csv("../data/traits/dat.intersect.csv",
-                          as.is = T, 
+                          as.is = T,
                           row.names = 1)
 
 #make an empty column in the data frame with diploid chromosome number
 dat.rates.chrom <- cbind(dat.intersect, rates.evol = "", stringsAsFactors = F)
 #loop that finds species diploid chromosome number from our data frame
 for(i in 1:nrow(dat.rates.chrom)){
-  # if species in microcounter matches one in chromosome data 
+  # if species in microcounter matches one in chromosome data
   if(row.names(dat.rates.chrom)[i] %in% names(rates.species)){
     #store the name in vector hit
     hit <- which(names(rates.species) == row.names(dat.rates.chrom)[i])
-    #fill in rates for those species that have a match in the 
+    #fill in rates for those species that have a match in the
     #chromosome data
-    dat.rates.chrom$rates.evol[[i]] <- rates.species[[hit]]
+    dat.rates.chrom[i,4:104] <- rates[hit, 1:100]
   }
 }
 
@@ -37,7 +37,7 @@ rm(list = c("dat.intersect", "rates", "i", "rates.species"))
 #read in trees
 trees <- read.nexus("../data/trees/post.nex")
 
-#make a vector to store p-values 
+#make a vector to store p-values
 pvals.rates <- c()
 
 #loops through the 100 posterior distribution trees and determines the data
@@ -52,10 +52,10 @@ for(i in 1:100){
   #creates data frame of the data for each tree
   dat <- as.data.frame(foo[[2]])
   #stores p-value on phylolm analysis
-  pvals.rates[i] <- summary(phylolm(as.numeric(rates.evol) ~ diploid.num, 
-                                    data = dat.rates.chrom, 
-                                    phy = tree.cur, 
-                                    model = "BM", 
+  pvals.rates[i] <- summary(phylolm(as.numeric(dat.rates.chrom[,(i+3)]) ~ diploid.num,
+                                    data = dat.rates.chrom,
+                                    phy = tree.cur,
+                                    model = "BM",
                                     boot = 100))$coefficients[2,6]
 }
 
@@ -73,7 +73,7 @@ hist(pvals.rates,
 plot(dat.rates.chrom$rates.evol~dat.rates.chrom$diploid.num,
      xlab = "Diploid Chromosome Number",
      ylab = "Microsatellite Evolution Rates",
-     pch = 16, 
+     pch = 16,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
 
