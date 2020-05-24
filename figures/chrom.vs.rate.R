@@ -43,6 +43,7 @@ pvals.rates <- c()
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
 for(i in 1:100){
+  print(i)
   #stores tree number
   tree.test <- trees[[i]]
   #matches species within the dataset and the tree
@@ -60,19 +61,19 @@ for(i in 1:100){
 }
 
 #makes a histogram containing the p-values from the loop
-hist(pvals.rates,
-     main = "Chromosome Number and Rate P-Values",
-     xlab = "P-Values",
-     ylab = "Frequency of P-Values",
-     col = rgb(250, 159, 181, 100,
-               maxColorValue = 255))
-
+# hist(pvals.rates,
+#      main = "Chromosome Number and Rate P-Values",
+#      xlab = "P-Values",
+#      ylab = "Frequency of P-Values",
+#      col = rgb(250, 159, 181, 100,
+#                maxColorValue = 255))
+#
 #export pdf as 6" x 6"
 
 #plot the microsatellite content in bp/Mbp and the diploid chromosome number
 plot(dat.rates.chrom$rates.evol~dat.rates.chrom$diploid.num,
      xlab = "Diploid Chromosome Number",
-     ylab = "Microsatellite Evolution Rates",
+     ylab = "Tip Rate (bp change per MY)",
      pch = 16,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))

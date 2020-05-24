@@ -6,7 +6,7 @@ library(geiger)
 trees <- read.nexus("../../data/trees/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
+dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 #subset order data
@@ -47,7 +47,7 @@ for(i in 1:100){
 }
 
 
-ace.diptera <- ace.coleoptera <- ace.hemiptera <- 
+ace.diptera <- ace.coleoptera <- ace.hemiptera <-
   ace.hymenoptera <- ace.lepidoptera <- list()
 
 #ancestral character estimations for coleoptera
@@ -56,8 +56,13 @@ names(mics.coleoptera) <- row.names(coleoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.coleoptera[[i]] <- fitContinuous(phy=trees.coleoptera[[i]], dat=mics.coleoptera/1000, ncores=2)
+  ace.coleoptera[[i]] <- fitContinuous(phy=trees.coleoptera[[i]],
+                                       dat=mics.coleoptera, ncores=14)
 }
+for(i in 1:100){
+  print(sum(ace.coleoptera[[i]]$res[,3]))
+}
+
 coleoptera.rates <-c()
 for(i in 1:100){
   coleoptera.rates[i] <- ace.coleoptera[[i]]$opt$sigsq
@@ -69,7 +74,8 @@ names(mics.diptera) <- row.names(diptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.diptera[[i]] <- fitContinuous(phy=trees.diptera[[i]], dat=mics.diptera/1000, ncores=2)
+  ace.diptera[[i]] <- fitContinuous(phy=trees.diptera[[i]],
+                                    dat=mics.diptera, ncores = 14)
 }
 diptera.rates <-c()
 for(i in 1:100){
@@ -83,7 +89,8 @@ names(mics.hemiptera) <- row.names(hemiptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hemiptera[[i]] <- fitContinuous(phy=trees.hemiptera[[i]], dat=mics.hemiptera/1000, ncores=2)
+  ace.hemiptera[[i]] <- fitContinuous(phy=trees.hemiptera[[i]],
+                                      dat=mics.hemiptera, ncores = 14)
 }
 hemiptera.rates <-c()
 for(i in 1:100){
@@ -96,9 +103,10 @@ names(mics.hymenoptera) <- row.names(hymenoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.hymenoptera[[i]] <- fitContinuous(phy=trees.hymenoptera[[i]], dat=mics.hymenoptera/1000, ncores=2)
+  ace.hymenoptera[[i]] <- fitContinuous(phy=trees.hymenoptera[[i]],
+                                        dat=mics.hymenoptera, ncores = 14)
 }
-hymenoptera.rates <-c()
+hymenoptera.rates <- c()
 for(i in 1:100){
   hymenoptera.rates[i] <- ace.hymenoptera[[i]]$opt$sigsq
 }
@@ -109,7 +117,8 @@ names(mics.lepidoptera) <- row.names(lepidoptera)
 for(i in 1:100){
   print(i)
   # estimate ancestral states
-  ace.lepidoptera[[i]] <- fitContinuous(phy=trees.lepidoptera[[i]], dat=mics.lepidoptera/1000, ncores=2)
+  ace.lepidoptera[[i]] <- fitContinuous(phy=trees.lepidoptera[[i]],
+                                        dat=mics.lepidoptera, ncores = 14)
 }
 lepidoptera.rates <-c()
 for(i in 1:100){
@@ -117,6 +126,8 @@ for(i in 1:100){
 }
 
 #make a data frame with all the order data
-order.rates <- data.frame(coleoptera.rates,diptera.rates, hemiptera.rates, hymenoptera.rates, lepidoptera.rates)
+order.rates <- data.frame(coleoptera.rates,diptera.rates,
+                          hemiptera.rates, hymenoptera.rates,
+                          lepidoptera.rates)
 #store in a file
-write.csv(order.rates, file = "order.rates")
+write.csv(order.rates, file = "../../results/order.rates/order.rates.csv")

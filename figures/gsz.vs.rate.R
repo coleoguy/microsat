@@ -79,12 +79,14 @@ write.csv(pvals.rates, "../results/genome.size/gsz.rates.csv")
 #plot the microsatellite evolution rates and genome size
 plot(rowSums(str[,4:104]) ~ str$gsz,
      xlab = "Genome Size (Mbp)",
-     ylab = "Microsatellite Evolution Rates",
+     ylab = "Tip Rate (bp change per MY)",
      pch = 16,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
 
-lines(x=c(0,2500), y=c(mean(results$intercept),
-                       (mean(results$beta.rates)*2500 + mean(results$intercept))))
+lines(x=c(0,2500), lty=2,
+      y=c(mean(results$intercept),
+          (mean(results$beta.rates)*2500 +
+             mean(results$intercept))))
 
 #export as pdf 4.3" x 4.3"
