@@ -1,6 +1,6 @@
 #load in necessary packages
 library(phytools)
-
+library(geiger)
 #read in insect phylogeny
 trees <- read.nexus("../../data/trees/post.nex")
 
@@ -19,7 +19,7 @@ for(i in 1:100){
 rm(trees, i)
 
 
-bpMbp <- dat.mic$all/(dat.mic$gsz/1000)
+bpMbp <- dat.mic$all#/(dat.mic$gsz/1000)
 names(bpMbp) <- row.names(dat.mic)
 rm(dat.mic)
 
@@ -62,7 +62,7 @@ for(k in 1:100){
   }
 }
 colnames(tipp.rates) <- paste("tree", 1:100)
-tipp.rates[,] <- abs(tipp.rates)
+#tipp.rates[,] <- abs(tipp.rates)
 Average <- rowSums(tipp.rates)/100
 tipp.rates <- cbind(tipp.rates, Average)
 write.csv(tipp.rates, file="tip.rates.csv")

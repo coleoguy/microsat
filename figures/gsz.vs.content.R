@@ -28,7 +28,7 @@ trees <- read.nexus("../data/trees/post.nex")
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
-pvals.content <- beta.content <- c()
+pvals.content <- beta.content <- intercept <- c()
 str$gsz <- str$gsz/1000000
 prop.var.exp <- c()
 for(i in 1:100){
@@ -50,9 +50,10 @@ for(i in 1:100){
   prop.var.exp[i] <- R2(fit, simp.mod, phy = tree.cur)[3]
   pvals.content[i] <- cur.results$coefficients[2,6]
   beta.content[i] <- cur.results$coefficients[2,1]
+  intercept[i] <- cur.results$coefficients[1,1]
 }
 #make the results into a data frame
-results <- data.frame(pvals.content,beta.content, prop.var.exp)
+results <- data.frame(pvals.content,beta.content, prop.var.exp, intercept)
 #write the results to a csv
 write.csv(pvals.content, "../results/genome.size/gsz.content.csv")
 
@@ -67,5 +68,7 @@ plot(msat~str$gsz,
      pch = 16,
      col = rgb(250, 159, 181, 100,
                maxColorValue = 255))
-
+lines(x=c(0,2500), lty=2,
+      y=c(mean(results$intercept)/1000000,
+          (mean(results$beta.content)*2500 + mean(results$intercept))/1000000))
 #save as pdf 4.3" x 4.3"
