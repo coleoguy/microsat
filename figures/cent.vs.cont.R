@@ -3,7 +3,7 @@
 library(geiger)
 
 # read in microsatellite and centromere data
-microsat.cent <- read.csv("../results/ssr.inference/micRocounter_results_TII_typecentromere.csv", 
+microsat.cent <- read.csv("../results/ssr.inference/micRocounter_results_TII_typecentromere.csv",
                           row.names = 4)
 
 #read in centromere type data
@@ -13,7 +13,7 @@ names(holo.or.mono) <- row.names(microsat.cent)
 #import trees
 trees <- read.nexus("../data/trees/post.nex")
 
-# drops the tip 
+# drops the tip
 pruned.tree <- c()
 for(i in 1:100){
   pruned.tree[[i]] <- drop.tip(phy=trees[[i]], tip=c("B.terrestris",
@@ -21,7 +21,7 @@ for(i in 1:100){
                                                      "Timema_cristinae"))
 }
 
-# make named vector for bpMbp coontent
+# make named vector for bpMbp content
 bp.Mbp <- microsat.cent$bp.Mbp
 names(bp.Mbp) <- row.names(microsat.cent)
 # run aovphylo with phylogenetic correction
@@ -51,12 +51,12 @@ boxplot(log(bp.all) ~ holo.or.mono,
         outpch = NA,
         xlab = "Type of Centromere",
         ylab = "log Microsatellite Content (bp)")
-stripchart(log(microsat.cent$all) ~ microsat.cent$holo.or.mono, 
-           vertical = TRUE, 
-           data = microsat.cent, 
-           method = "jitter", 
-           add = TRUE, 
-           pch = 20, 
+stripchart(log(microsat.cent$all) ~ microsat.cent$holo.or.mono,
+           vertical = TRUE,
+           data = microsat.cent,
+           method = "jitter",
+           add = TRUE,
+           pch = 20,
            col = rgb(250, 159, 181, 100,
                      maxColorValue = 255))
 
@@ -122,6 +122,17 @@ aovphylo.bp6[[i]] <- aov.phylo(bp.6 ~ holo.or.mono,
                           nsim = 100)
 pval.6mer[[i]] <- print(attributes(aovphylo.bp6[[i]])$summary)[1,6]
 }
+# get non-phylo pvals
+attributes(aovphylo.bp2[[1]]) #0.168
+attributes(aovphylo.bp3[[1]]) #0.175
+attributes(aovphylo.bp4[[1]]) #0.364
+attributes(aovphylo.bp5[[1]]) #0.717
+attributes(aovphylo.bp6[[1]]) #0.807
+attributes(aovphylo.bpall[[1]]) #0.185
+attributes(aovphylo.bpMbp[[1]]) #0.109
+
+
+
 
 #create data frame with all pvalues
 pvals.aovphylo <- data.frame(pval.2mer, pval.3mer, pval.4mer, pval.5mer, pval.6mer, pval.all, pval.bpMbp)
