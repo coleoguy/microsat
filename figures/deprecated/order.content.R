@@ -10,4 +10,4 @@ beeswarm(log(dat.mic$bp.Mbp) ~ dat.mic$order, las = 1,
          cex = .8, spacing = .3, cex.lab = .8, cex.axis = .5
 )
 
-#export as pdf 6" x 4"
+#export as pdf 4" x 4"
