@@ -3,10 +3,10 @@ library(geiger)
 
 
 #read in insect phylogeny
-trees <- read.nexus("../../data/trees/post.nex")
+trees <- read.nexus("../../data/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
+dat.mic <- read.csv("../../results/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 #subset order data
@@ -130,4 +130,4 @@ order.rates <- data.frame(coleoptera.rates,diptera.rates,
                           hemiptera.rates, hymenoptera.rates,
                           lepidoptera.rates)
 #store in a file
-write.csv(order.rates, file = "../../results/order.rates/order.rates.csv")
+write.csv(order.rates, file = "../../results/order.rates.csv")
