@@ -1,8 +1,8 @@
 #read in microsatellite data
-dat.mic <- read.csv("results/micro.vs.chrom.csv", as.is=T)
+dat.mic <- read.csv("../data/micro.vs.chrom.csv", as.is=T)
 
 #read in chromosome data
-dat.chroms <- read.csv("data/chroms/data.invert.csv", as.is=T)
+dat.chroms <- read.csv("../data/data.invert.csv", as.is=T)
 
 #vector of names from chromosome data
 chrom.names <- paste(dat.chroms$Genus, dat.chroms$species)
@@ -30,8 +30,6 @@ bpMbp <- dat.intersect$all/(dat.intersect$gsz/1000000)
 plot(bpMbp~dat.intersect$diploid.num,
      xlab = "Diploid Number",
      ylab = "Microsatellite Content (bp/Mbp)")
-
-#save plot as pdf 4" x 6" 
 
 #write the CSV with microsatellite, genome, and diploid chromosome number data
 write.csv(dat.intersect, "dat.intersect.csv")

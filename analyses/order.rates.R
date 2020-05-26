@@ -1,12 +1,11 @@
 #load in necessary packages
 library(geiger)
 
-
 #read in insect phylogeny
-trees <- read.nexus("../../data/post.nex")
+trees <- read.nexus("../data/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/micRocounter_results_TII.csv",
+dat.mic <- read.csv("../results/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 #subset order data
@@ -46,7 +45,7 @@ for(i in 1:100){
   trees.lepidoptera[[i]] <- treedata(phy = trees[[i]], data=lepidoptera)[[1]]
 }
 
-
+#make vectors to store ancestral character estimations for each order
 ace.diptera <- ace.coleoptera <- ace.hemiptera <-
   ace.hymenoptera <- ace.lepidoptera <- list()
 
@@ -130,4 +129,4 @@ order.rates <- data.frame(coleoptera.rates,diptera.rates,
                           hemiptera.rates, hymenoptera.rates,
                           lepidoptera.rates)
 #store in a file
-write.csv(order.rates, file = "../../results/order.rates.csv")
+write.csv(order.rates, file = "../results/order.rates.csv")

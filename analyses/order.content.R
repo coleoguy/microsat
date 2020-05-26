@@ -2,10 +2,10 @@
 library(geiger)
 
 #read in insect phylogeny
-trees <- read.nexus("../../data/trees/post.nex")
+trees <- read.nexus("../data/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
+dat.mic <- read.csv("../results/micRocounter_results_TII.csv", 
                     as.is = T, row.names = 4)
 
 #loop through to drop any unmatching data or tree tips
@@ -44,8 +44,9 @@ for(i in 1:100){
   results.Mbp[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.Mbp[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/Mbp")
+write.csv(results.Mbp, "../results/Mbp.csv")
 
 #make named vector for twomers
 twomers <- dat.mic$twomers
@@ -72,8 +73,9 @@ for(i in 1:100){
   results.twomers[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.twomers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/twomers")
+write.csv(results.Mbp, "../results/twomers.csv")
 
 #make named vector for threemers
 threemers <- dat.mic$threemers
@@ -100,8 +102,9 @@ for(i in 1:100){
   results.threemers[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.threemers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/threemers")
+write.csv(results.Mbp, "../results/threemers.csv")
 
 #make named vector for threemers
 fourmers <- dat.mic$fourmers
@@ -128,8 +131,9 @@ for(i in 1:100){
   results.fourmers[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.fourmers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/fourmers")
+write.csv(results.Mbp, "../results/fourmers.csv")
 
 #make named vector for threemers
 fivemers <- dat.mic$fivemers
@@ -157,7 +161,7 @@ for(i in 1:100){
   results.fivemers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/fivemers")
+write.csv(results.Mbp, "../results/fivemers.csv")
 
 #make named vector for threemers
 sixmers <- dat.mic$sixmers
@@ -184,8 +188,9 @@ for(i in 1:100){
   results.sixmers[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.sixmers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/sixmers")
+write.csv(results.Mbp, "../results/sixmers.csv")
 
 #make named vector for threemers
 all <- dat.mic$all
@@ -212,5 +217,6 @@ for(i in 1:100){
   results.all[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.all[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
+
 #save p-value data frame into csv
-write.csv(results.Mbp, "../../results/order.content/all")
+write.csv(results.Mbp, "../results/all.csv")
