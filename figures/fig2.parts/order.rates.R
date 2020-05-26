@@ -21,4 +21,4 @@ beeswarm(log(results$rates) ~ results$order, las = 1,
          cex = .8, spacing = .3, cex.lab = .8, cex.axis = .5
 )
 
-#export as pdf 4" x 4"
+#export as pdf 5" x 4"
