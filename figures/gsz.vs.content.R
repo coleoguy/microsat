@@ -5,9 +5,10 @@ library(phylolm)
 library(rr2)
 
 #read in nmicrosatellite data
-str <- read.csv("../data/traits/micro.vs.chrom.csv")
+str <- read.csv("../data/micro.vs.chrom.csv")
 str <- str[,1:3]
 str$species <- gsub(pattern = " ", replacement = "_", str$species)
+
 #fix the names in the data that are different from the trees
 str$species <- sub(pattern = "Harpergnathos_saltator",
                    replacement = "Harpegnathos_saltator", str$species)
@@ -23,8 +24,11 @@ str$species <- gsub(pattern = "Scaptodrosophila_lebanonesis",
 #assign rownames
 row.names(str) <- str$species
 
+#write clean data to a csv
+write.csv(str, "../data/str.content")
+
 #read in trees
-trees <- read.nexus("../data/trees/post.nex")
+trees <- read.nexus("../data/post.nex")
 
 #loops through the 100 posterior distribution trees and determines the data
 #necessary for the p-value
@@ -52,23 +56,9 @@ for(i in 1:100){
   beta.content[i] <- cur.results$coefficients[2,1]
   intercept[i] <- cur.results$coefficients[1,1]
 }
+
 #make the results into a data frame
 results <- data.frame(pvals.content,beta.content, prop.var.exp, intercept)
+
 #write the results to a csv
-write.csv(pvals.content, "../results/genome.size/gsz.content.csv")
-
-
-
-#put gsz and microsatellite data into different units
-str$all/1000000 ->msat
-#plot the microsatellite content and genome size
-plot(msat~str$gsz,
-     ylab = "Microsatellite Content (Mbp)",
-     xlab = "Genome Size (Mbp)",
-     pch = 16,
-     col = rgb(250, 159, 181, 100,
-               maxColorValue = 255))
-lines(x=c(0,2500), lty=2,
-      y=c(mean(results$intercept)/1000000,
-          (mean(results$beta.content)*2500 + mean(results$intercept))/1000000))
-#save as pdf 4.3" x 4.3"
+write.csv(results, "../results/gsz.content.csv")
