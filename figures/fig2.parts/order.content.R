@@ -1,5 +1,10 @@
 #load in library for beeswarm
 library(beeswarm)
+
+#load in microsatellite data
+dat.mic <- read.csv("../results/micRocounter_results_TII.csv")
+
+
 #create the beeswarm plot with the 
 beeswarm(log(dat.mic$bp.Mbp) ~ dat.mic$order, las = 1,
          xlab = "Order",
