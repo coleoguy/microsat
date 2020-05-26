@@ -1,35 +1,35 @@
 #load in necessary packages
 library(phytools)
 library(geiger)
+
 #read in insect phylogeny
-trees <- read.nexus("../../data/trees/post.nex")
+trees <- read.nexus("../data/post.nex")
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv",
+dat.mic <- read.csv("../results/micRocounter_results_TII.csv",
                     as.is = T, row.names = 4)
 
 
 # match up tree and data
-
 trees.pruned <- list()
+
 #loop through to drop any unmatching data or tree tips
 for(i in 1:100){
-  trees.pruned[[i]] <- treedata(phy = trees[[i]], data=dat.mic)[[1]]
+  trees.pruned[[i]] <- treedata(phy = trees[[i]], data = dat.mic)[[1]]
 }
 rm(trees, i)
 
-
+#pull out data needed for calculating tip rates
 bpMbp <- dat.mic$all#/(dat.mic$gsz/1000)
 names(bpMbp) <- row.names(dat.mic)
 rm(dat.mic)
 
 
-
+#loop through calculating 
 for(k in 1:100){
   print(k)
   # estimate ancestral states
-  foo <- ace(x=bpMbp, phy=trees.pruned[[k]], model="BM")
-
+  foo <- ace(x = bpMbp, phy = trees.pruned[[k]], model = "BM")
   # get tip branches
   tip.branch <- c()
   for(i in 1:nrow(trees.pruned[[k]]$edge)){
@@ -62,8 +62,9 @@ for(k in 1:100){
   }
 }
 colnames(tipp.rates) <- paste("tree", 1:100)
+
 #tipp.rates[,] <- abs(tipp.rates)
 Average <- rowSums(tipp.rates)/100
 tipp.rates <- cbind(tipp.rates, Average)
-write.csv(tipp.rates, file="tip.rates.csv")
+write.csv(tipp.rates, file = "tip.rates.csv")
 

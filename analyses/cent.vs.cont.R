@@ -123,4 +123,4 @@ attributes(aovphylo.bpMbp[[1]]) #0.109
 
 #create data frame with all pvalues
 pvals.aovphylo <- data.frame(pval.2mer, pval.3mer, pval.4mer, pval.5mer, pval.6mer, pval.all, pval.bpMbp)
-write.csv(pvals.aovphylo, "../results/cent.type/pvals.aovphylo.csv")
+write.csv(pvals.aovphylo, "../results/pvals.aovphylo.csv")

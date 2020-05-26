@@ -3,41 +3,43 @@ library(phytools)
 library(geiger)
 
 #read in insect phylogeny
-trees <- read.nexus("../../data/trees/post.nex")
+trees <- read.nexus("../data/post.nex")
 
 #read in centromere data 
 #row names sets the species columns as row names for the data
-dat.centromere <- read.csv("../../data/traits/centromere.type.csv", 
-                           as.is=T,
+dat.centromere <- read.csv("../data/centromere.type.csv", 
+                           as.is = T,
                            row.names = 4)
 
 # converting data to a named vector
 #load in the centromere type
 cent.type <- dat.centromere[,4]
+
 #name the centromere type vector
 names(cent.type) <- row.names(dat.centromere)
 rm(dat.centromere)
 
 # match up tree and data
-
 trees.pruned <- list()
+
 #loop through to drop any unmatching data or tree tips
 for(i in 1:100){
-  trees.pruned[[i]] <- treedata(phy = trees[[i]], data=cent.type)[[1]]
+  trees.pruned[[i]] <- treedata(phy = trees[[i]], data = cent.type)[[1]]
 }
 rm(trees, i)
 
 # remove "Timema_cristinae" this species is not place
 # in the tree correctly
-
 foo <- list()
 for(i in 1:100){
   foo[[i]] <- drop.tip(trees.pruned[[i]], tip="Timema_cristinae")
 }
 trees.pruned <- foo
 rm(foo)
+
 # also remove this data from the data
 cent.type <- cent.type[names(cent.type)!="Timema_cristinae"]
+
 #make a vector to store the simmaps
 histories <- list()
 
@@ -57,7 +59,6 @@ class(histories) <- "simmap"
 #read in the microsatellite data
 dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
                     as.is = T, row.names = 4)
-
 bpMbp <- dat.mic$all/(dat.mic$gsz/1000)
 names(bpMbp) <- row.names(dat.mic)
 
@@ -84,7 +85,7 @@ for(i in 1:100){
 }
 
 #write a csv with the brownieREML data
-write.csv(results, file = "../../results/cent.vs.rate.csv", row.names = F)
+write.csv(results, file = "../results/cent.vs.rate.csv", row.names = F)
 
 
 
