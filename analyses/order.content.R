@@ -75,7 +75,7 @@ for(i in 1:100){
 }
 
 #save p-value data frame into csv
-write.csv(results.Mbp, "../results/twomers.csv")
+write.csv(results.twomers, "../results/twomers.csv")
 
 #make named vector for threemers
 threemers <- dat.mic$threemers
@@ -85,7 +85,7 @@ names(threemers) <- row.names(dat.mic)
 results.threemers <- matrix(NA, 100, 2)
 colnames(results.threemers) <- c("wophylo","wphylo")
 
-#run phyloANOVA for twomers and orders
+#run phyloANOVA for threemers and orders
 threemers.2 <- threemers
 ord2 <- order
 for(i in 1:100){
@@ -104,9 +104,9 @@ for(i in 1:100){
 }
 
 #save p-value data frame into csv
-write.csv(results.Mbp, "../results/threemers.csv")
+write.csv(results.threemers, "../results/threemers.csv")
 
-#make named vector for threemers
+#make named vector for fourmers
 fourmers <- dat.mic$fourmers
 names(fourmers) <- row.names(dat.mic)
 
@@ -114,7 +114,7 @@ names(fourmers) <- row.names(dat.mic)
 results.fourmers <- matrix(NA, 100, 2)
 colnames(results.fourmers) <- c("wophylo","wphylo")
 
-#run phyloANOVA for twomers and orders
+#run phyloANOVA for fourmers and orders
 fourmers.2 <- fourmers
 ord2 <- order
 for(i in 1:100){
@@ -133,9 +133,9 @@ for(i in 1:100){
 }
 
 #save p-value data frame into csv
-write.csv(results.Mbp, "../results/fourmers.csv")
+write.csv(results.fourmers, "../results/fourmers.csv")
 
-#make named vector for threemers
+#make named vector for fivemers
 fivemers <- dat.mic$fivemers
 names(fivemers) <- row.names(dat.mic)
 
@@ -143,7 +143,7 @@ names(fivemers) <- row.names(dat.mic)
 results.fivemers <- matrix(NA, 100, 2)
 colnames(results.fivemers) <- c("wophylo","wphylo")
 
-#run phyloANOVA for twomers and orders
+#run phyloANOVA for fivemers and orders
 fivemers.2 <- fivemers
 ord2 <- order
 for(i in 1:100){
@@ -160,10 +160,11 @@ for(i in 1:100){
   results.fivemers[i, 1] <- aov.sum$`Pr(>F)`[1]
   results.fivemers[i, 2] <- aov.sum$`Pr(>F) given phy`[1]
 }
-#save p-value data frame into csv
-write.csv(results.Mbp, "../results/fivemers.csv")
 
-#make named vector for threemers
+#save p-value data frame into csv
+write.csv(results.fivemers, "../results/fivemers.csv")
+
+#make named vector for sixmers
 sixmers <- dat.mic$sixmers
 names(sixmers) <- row.names(dat.mic)
 
@@ -171,7 +172,7 @@ names(sixmers) <- row.names(dat.mic)
 results.sixmers <- matrix(NA, 100, 2)
 colnames(results.sixmers) <- c("wophylo","wphylo")
 
-#run phyloANOVA for twomers and orders
+#run phyloANOVA for sixmers and orders
 sixmers.2 <- sixmers
 ord2 <- order
 for(i in 1:100){
@@ -190,9 +191,9 @@ for(i in 1:100){
 }
 
 #save p-value data frame into csv
-write.csv(results.Mbp, "../results/sixmers.csv")
+write.csv(results.sixmers, "../results/sixmers.csv")
 
-#make named vector for threemers
+#make named vector for all
 all <- dat.mic$all
 names(all) <- row.names(dat.mic)
 
@@ -200,7 +201,7 @@ names(all) <- row.names(dat.mic)
 results.all <- matrix(NA, 100, 2)
 colnames(results.all) <- c("wophylo","wphylo")
 
-#run phyloANOVA for twomers and orders
+#run phyloANOVA for allmers and orders
 all.2 <- all
 ord2 <- order
 for(i in 1:100){
@@ -219,4 +220,4 @@ for(i in 1:100){
 }
 
 #save p-value data frame into csv
-write.csv(results.Mbp, "../results/all.csv")
+write.csv(results.all, "../results/all.csv")
