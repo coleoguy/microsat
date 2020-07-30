@@ -5,6 +5,7 @@ library(beeswarm)
 dat.mic <- read.csv("../../results/micRocounter_results_TII.csv")
 
 orders <- sort(as.character(unique(dat.mic$order)))
+raw.rates <- round(exp(c(4, 5, 6, 7, 8, 9)), 3)
 nums <- c(3, 12, 78, 1, 15, 68, 22, 2)
 labels <- paste(orders, " (", nums, ")", sep="")
 #create the beeswarm plot with the
@@ -15,8 +16,9 @@ beeswarm(log(dat.mic$bp.Mbp) ~ dat.mic$order, las = 2,
          col = rgb(250, 159, 181, 100,
                    maxColorValue = 255), pch = 16,
          labels=labels,
-         method = "swarm", cex.main = .9,
-         cex = .95, spacing = .3, cex.lab = 1, cex.axis = .8
+         method = "swarm", cex.main = .9, yaxt= "n",
+         cex = .95, spacing = .5, cex.lab = 1, cex.axis = 0.8
 )
-
-#export as pdf 6" x 4"
+axis(at=c(4, 5, 6, 7, 8, 9), labels=raw.rates, side=2,
+     las=1, cex.axis = .5)
+#export as pdf 6" x 6"
