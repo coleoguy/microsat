@@ -3,13 +3,13 @@
 library(phytools)
 
 #load in the trees
-trees <- read.nexus("../data/post.nex")
+trees <- read.nexus("../../data/post.nex")
 #select a single tree to use
 tree <- trees[[sample(1:100, 1)]]
 rm(trees)
 
 #load in tip rate data
-tips <- read.csv("../results/tip.rates.csv", row.names = 1)
+tips <- read.csv("../../results/tip.rates.csv", row.names = 1)
 #subset out columns that we need
 tips <- tips[101]
 
@@ -31,4 +31,4 @@ names(tips) <- row.names(foo2)
 plotTree.wBars(tree = pruned.tree,
                x = abs(tips))
 
-#export as pdf 7" x 7" 
+#export as pdf 7" x 7"
