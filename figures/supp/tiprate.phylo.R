@@ -31,4 +31,4 @@ names(tips) <- row.names(foo2)
 plotTree.wBars(tree = pruned.tree,
                x = abs(tips))
 
-#export as pdf 7" x 7" 
+#export as pdf 7" x 7"
