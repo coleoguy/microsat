@@ -4,7 +4,7 @@ library(geiger)
 library(phylolm)
 
 #read in csv with rates of evolution
-rates <- read.csv("../analyses/tip.rates.csv",
+rates <- read.csv("../results/tip.rates.csv",
                   row.names = 1)
 
 #store the average rate in a named vector by species name
@@ -52,6 +52,7 @@ trees <- read.nexus("../data/post.nex")
 #necessary for the p-value
 pvals.rates <- beta.rates <- intercept <- c()
 str$gsz <- str$gsz/1000000
+prop.var.exp <- c()
 for(i in 1:100){
   print(i)
   #stores tree number
@@ -61,11 +62,14 @@ for(i in 1:100){
   #stores current trees data
   tree.cur <- foo[[1]]
   #stores p-value on phylolm analysis
-  cur.results <- summary(phylolm(str[,(i+3)] ~ gsz,
-                                    data = str,
-                                    phy = tree.cur,
-                                    model = "BM",
-                                    boot = 100))
+  fit <- phylolm(str[,(i+3)] ~ gsz,
+                 data = str,
+                 phy = tree.cur,
+                 model = "BM",
+                 boot = 100)
+  simp.mod <- lm(str[,(i+3)] ~ str$gsz)
+  cur.results <- summary(fit)
+  prop.var.exp[i] <- R2(fit, simp.mod, phy = tree.cur)[3]
   pvals.rates[i] <- cur.results$coefficients[2,6]
   beta.rates[i] <- cur.results$coefficients[2,1]
   intercept[i] <- cur.results$coefficients[1,1]
