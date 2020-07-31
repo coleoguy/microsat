@@ -4,9 +4,17 @@ library(phytools)
 
 #load in the trees
 trees <- read.nexus("../../data/post.nex")
+
+# drops the tip
+pruned.trees <- c()
+for(i in 1:100){
+  pruned.trees[[i]] <- drop.tip(phy=trees[[i]], tip=c("B.terrestris",
+                                                     "Plutella_xylostella",
+                                                     "Timema_cristinae"))
+}
 #select a single tree to use
-tree <- trees[[sample(1:100, 1)]]
-rm(trees)
+pruned.tree <- pruned.trees[[sample(1:100, 1)]]
+rm(trees, pruned.trees)
 
 #load in tip rate data
 tips <- read.csv("../../results/tip.rates.csv", row.names = 1)
