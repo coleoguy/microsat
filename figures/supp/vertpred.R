@@ -1,5 +1,5 @@
 #read in vertebrate data
-dat <-read.csv("../../data/verts/vert.csv")
+dat <-read.csv("../../data/vert.csv")
 
 #only keep the columns needed
 dat <- dat[,c(1:2,4:6,8,12:23)]

@@ -1,6 +1,6 @@
 #load in data
-results <- read.csv("../results/gsz.content.csv")
-str <-read.csv("../data/str.content")
+results <- read.csv("../../results/gsz.content.csv")
+str <-read.csv("../../data/str.content.csv")
 
 #put gsz and microsatellite data into different units
 str$all/1000000 -> msat

@@ -1,5 +1,5 @@
 #read in data
-dat.intersect <- read.csv("../data/dat.intersect.csv")
+dat.intersect <- read.csv("../../data/dat.intersect.csv")
 
 #store the bp/Mbp microsatellite content
 bpMbp <- dat.intersect$all/(dat.intersect$gsz/1000000)

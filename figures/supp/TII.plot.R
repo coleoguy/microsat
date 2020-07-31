@@ -1,5 +1,5 @@
 #read in the TII values from mesquite
-TII <- read.table("../results/TII Values.txt")
+TII <- read.table("../../results/TII Values.txt")
 
 #plot the TII values against the number of taxa
 #Inflection point 

@@ -1,6 +1,6 @@
 #load in the data
-results <- read.csv("../results/gsz.rates.csv")
-str <-read.csv("../data/str.rates")
+results <- read.csv("../../results/gsz.rates.csv")
+str <-read.csv("../../data/str.rates.csv")
 
 #plot the microsatellite evolution rates and genome size
 

@@ -1,5 +1,5 @@
 #load in data
-dat.rates.chrom <- read.csv("dat.rates.chrom.csv")
+dat.rates.chrom <- read.csv("../../data/dat.rates.chrom.csv")
 
 #plot the microsatellite content in bp/Mbp and the diploid chromosome number
 plot(dat.rates.chrom$rates.evol~dat.rates.chrom$diploid.num,

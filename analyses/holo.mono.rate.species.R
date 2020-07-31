@@ -57,7 +57,7 @@ class(histories) <- "simmap"
 
 
 #read in the microsatellite data
-dat.mic <- read.csv("../../results/ssr.inference/micRocounter_results_TII.csv", 
+dat.mic <- read.csv("../results/micRocounter_results_TII.csv", 
                     as.is = T, row.names = 4)
 bpMbp <- dat.mic$all/(dat.mic$gsz/1000)
 names(bpMbp) <- row.names(dat.mic)

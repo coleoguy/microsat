@@ -1,5 +1,5 @@
-# read in microsatellite and centromere data
-microsat.cent <- read.csv("../results/micRocounter_results_TII_typecentromere.csv",
+ # read in microsatellite and centromere data
+microsat.cent <- read.csv("../../results/micRocounter_results_TII_typecentromere.csv",
                           row.names = 4)
 
 # plot for presentation

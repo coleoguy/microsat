@@ -1,6 +1,6 @@
 #set figures as working directory
 # read in the results
-dat <- read.csv("../results/cent.type/cent.vs.rate.csv")
+dat <- read.csv("../../results/cent.vs.rate.csv")
 
 #calculates and adds column for the difference in monocentric and holocentric rates
 dat$diff <- dat$rate.mon-dat$rate.hol

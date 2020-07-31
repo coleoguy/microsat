@@ -5,7 +5,7 @@ library(geiger)
 library(phylolm)
 
 #read in csv with rates of evolution
-rates <- read.csv("../analyses/tip.rates.csv",
+rates <- read.csv("../results/tip.rates.csv",
                   row.names = 1)
 
 #store the average rate in a named vector by species name
