@@ -69,7 +69,6 @@ for(i in 1:100){
                  boot = 100)
   simp.mod <- lm(str[,(i+3)] ~ str$gsz)
   cur.results <- summary(fit)
-  prop.var.exp[i] <- R2(fit, simp.mod, phy = tree.cur)[3]
   pvals.rates[i] <- cur.results$coefficients[2,6]
   beta.rates[i] <- cur.results$coefficients[2,1]
   intercept[i] <- cur.results$coefficients[1,1]
