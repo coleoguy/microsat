@@ -46,4 +46,4 @@ pval <- round(fit3$coefficients[2,4], digits=3)
 text(x=max(dat$Scaffold.N50), y=max(dat$`2.6mermb`)-50,
      labels= paste("p-value=", pval, sep=""), pos=2,cex=.7)
 
-# export 3"x8"
+# export 4"x8"

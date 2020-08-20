@@ -1,4 +1,4 @@
-#set working directory as figures
+
 #load in libraries
 library(geiger)
 
